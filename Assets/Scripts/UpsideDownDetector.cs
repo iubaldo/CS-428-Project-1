@@ -9,6 +9,7 @@ public class UpsideDownDetector : MonoBehaviour
     public GameObject normalLight;
     public GameObject raveLight;
     public GameObject sunlight;
+    public AudioSource jam;
 
 
     private void Start()
@@ -38,9 +39,17 @@ public class UpsideDownDetector : MonoBehaviour
             raveLight.GetComponent<Light>().enabled = !useNormalLighting;
 
             if (useNormalLighting)
+            {
                 sunlight.GetComponent<Light>().intensity = 0.5f;
+                jam.Pause();
+            }
+                
             else
+            {
                 sunlight.GetComponent<Light>().intensity = 0f;
+                jam.Play();
+            }
+                
         }
     }
 }
