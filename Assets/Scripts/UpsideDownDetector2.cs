@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UpsideDownDetector2 : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class UpsideDownDetector2 : MonoBehaviour
     public GameObject normalLight;
     public GameObject raveLight;
     public GameObject sunlight;
+    public GameObject warningOverlay;
     public AudioSource jam;
 
 
@@ -21,6 +23,43 @@ public class UpsideDownDetector2 : MonoBehaviour
     void changeColor()
     {
         raveLight.GetComponent<Light>().color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+    }
+
+
+    IEnumerator FadeIn()
+    {
+        float elapsedTime = 0f;
+        float waitTime = 5f;
+
+        while (elapsedTime < waitTime)
+        {
+            warningOverlay.transform.localScale = Vector3.Lerp(warningOverlay.transform.localScale, Vector3.one, elapsedTime / waitTime);
+            jam.volume = Mathf.Lerp(jam.volume, 1f, elapsedTime / waitTime);
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        yield return null;
+    }
+
+
+    IEnumerator FadeOut()
+    {
+        float elapsedTime = 0f;
+        float waitTime = 5f;
+
+        while (elapsedTime < waitTime)
+        {
+            warningOverlay.transform.localScale = Vector3.Lerp(warningOverlay.transform.localScale, new Vector3(1.2f, 1.2f, 1.2f), elapsedTime / waitTime);
+            jam.volume = Mathf.Lerp(jam.volume, 0f, elapsedTime / waitTime);
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        jam.Pause();
+        yield return null;
     }
 
 
@@ -41,15 +80,15 @@ public class UpsideDownDetector2 : MonoBehaviour
             if (useNormalLighting)
             {
                 sunlight.GetComponent<Light>().intensity = 0.5f;
-                jam.Pause();
+                StartCoroutine(FadeOut());               
             }
                 
             else
             {
                 sunlight.GetComponent<Light>().intensity = 0f;
                 jam.Play();
-            }
-                
+                StartCoroutine(FadeIn());
+            }   
         }
     }
 }

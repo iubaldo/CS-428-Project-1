@@ -24,6 +24,41 @@ public class UpsideDownDetector : MonoBehaviour
     }
 
 
+    IEnumerator FadeIn()
+    {
+        float elapsedTime = 0f;
+        float waitTime = 5f;
+
+        while (elapsedTime < waitTime)
+        {
+            jam.volume = Mathf.Lerp(jam.volume, 1f, elapsedTime / waitTime);
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        yield return null;
+    }
+
+
+    IEnumerator FadeOut()
+    {
+        float elapsedTime = 0f;
+        float waitTime = 5f;
+
+        while (elapsedTime < waitTime)
+        {
+            jam.volume = Mathf.Lerp(jam.volume, 0f, elapsedTime / waitTime);
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        jam.Pause();
+        yield return null;
+    }
+
+
     void FixedUpdate()
     {
         if (!canChangeLighting && Vector3.Dot(transform.up, Vector3.down) > 0.75) // cube is upside down
@@ -41,13 +76,14 @@ public class UpsideDownDetector : MonoBehaviour
             if (useNormalLighting)
             {
                 sunlight.GetComponent<Light>().intensity = 0.5f;
-                jam.Pause();
+                StartCoroutine(FadeOut());
             }
                 
             else
             {
                 sunlight.GetComponent<Light>().intensity = 0f;
                 jam.Play();
+                StartCoroutine(FadeIn());
             }
                 
         }
