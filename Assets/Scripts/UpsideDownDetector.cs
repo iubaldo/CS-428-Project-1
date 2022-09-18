@@ -27,7 +27,7 @@ public class UpsideDownDetector : MonoBehaviour
     IEnumerator FadeIn()
     {
         float elapsedTime = 0f;
-        float waitTime = 5f;
+        float waitTime = 8f;
 
         while (elapsedTime < waitTime)
         {
