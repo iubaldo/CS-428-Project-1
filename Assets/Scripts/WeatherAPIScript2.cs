@@ -47,15 +47,15 @@ public class WeatherAPIScript2 : MonoBehaviour
                 // grab the current temperature and simplify it if needed
                 int startTemp = webRequest.downloadHandler.text.IndexOf("temp", 0);
                 int endTemp = webRequest.downloadHandler.text.IndexOf(",", startTemp);
-                double tempF = float.Parse(webRequest.downloadHandler.text.Substring(startTemp + 6, (endTemp - startTemp - 6)));
-                int easyTempF = Mathf.RoundToInt((float)tempF);
-                //Debug.Log ("integer temperature is " + easyTempF.ToString());
+                double tempC = float.Parse(webRequest.downloadHandler.text.Substring(startTemp + 6, (endTemp - startTemp - 6)));
+                int easytempC = Mathf.RoundToInt((float)tempC);
+                //Debug.Log ("integer temperature is " + easytempC.ToString());
                 int startConditions = webRequest.downloadHandler.text.IndexOf("main", 0);
                 int endConditions = webRequest.downloadHandler.text.IndexOf(",", startConditions);
                 string conditions = webRequest.downloadHandler.text.Substring(startConditions + 7, (endConditions - startConditions - 8));
                 //Debug.Log(conditions);
 
-                weatherTextObject.GetComponent<TextMeshPro>().text = "" + easyTempF.ToString() + "°F\n" + conditions;
+                weatherTextObject.GetComponent<TextMeshPro>().text = "" + easytempC.ToString() + "°C\n" + conditions;
             }
         }
     }
