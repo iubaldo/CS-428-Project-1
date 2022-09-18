@@ -16,13 +16,19 @@ public class UpsideDownDetector2 : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating("changeColor", 1f, 1f);
+        InvokeRepeating("changeColor", 1f, 0.1f);
     }
 
 
     void changeColor()
     {
-        raveLight.GetComponent<Light>().color = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+        if (!useNormalLighting)
+        {
+            if (Random.Range(0, 100) < 90)
+                raveLight.GetComponent<Light>().enabled = true;
+            else
+                raveLight.GetComponent<Light>().enabled = false;
+        }
     }
 
 
