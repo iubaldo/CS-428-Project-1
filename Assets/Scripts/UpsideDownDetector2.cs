@@ -7,6 +7,7 @@ public class UpsideDownDetector2 : MonoBehaviour
 {
     public bool useNormalLighting = true;
     public bool canChangeLighting = false;
+    public bool tracking = false;
     public GameObject normalLight;
     public GameObject raveLight;
     public GameObject sunlight;
@@ -18,6 +19,9 @@ public class UpsideDownDetector2 : MonoBehaviour
     {
         InvokeRepeating("changeColor", 1f, 0.1f);
     }
+
+
+    public void setTracking(bool status) { tracking = status; }
 
 
     void changeColor()
@@ -71,11 +75,11 @@ public class UpsideDownDetector2 : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!canChangeLighting && Vector3.Dot(transform.up, Vector3.down) > 0.75) // cube is upside down
+        if (!canChangeLighting && Vector3.Dot(transform.up, Vector3.down) > 0.75 && tracking) // cube is upside down
             canChangeLighting = true;
 
 
-        if (canChangeLighting && Vector3.Dot(transform.up, Vector3.up) > 0.75) // cube is right side up
+        if (canChangeLighting && Vector3.Dot(transform.up, Vector3.up) > 0.75 && tracking) // cube is right side up
         {
             canChangeLighting = false;                   
             useNormalLighting = !useNormalLighting;
